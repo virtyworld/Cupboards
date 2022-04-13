@@ -53,7 +53,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2767369789962055140, guid: f61f76e6d9e7eb04cb4c130f0cf03419, type: 3}
       propertyPath: m_Name
-      value: Point
+      value: Point4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5085029399236495543, guid: f61f76e6d9e7eb04cb4c130f0cf03419, type: 3}
+      propertyPath: m_Color.b
+      value: 0.9811321
+      objectReference: {fileID: 0}
+    - target: {fileID: 5085029399236495543, guid: f61f76e6d9e7eb04cb4c130f0cf03419, type: 3}
+      propertyPath: m_Color.g
+      value: 0.0046279924
+      objectReference: {fileID: 0}
+    - target: {fileID: 5085029399236495543, guid: f61f76e6d9e7eb04cb4c130f0cf03419, type: 3}
+      propertyPath: m_Color.r
+      value: 0.042294946
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f61f76e6d9e7eb04cb4c130f0cf03419, type: 3}
