@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Meta : MonoBehaviour
 {
@@ -10,5 +9,6 @@ public class Meta : MonoBehaviour
     {
         gameData = new DataManager();
         gameData.Load();
+        Debug.Log(gameData.Data.numberOfChip);
     }
 }

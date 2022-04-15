@@ -2,11 +2,11 @@ using System.Collections.Generic;
 
 public class GameData
 {
-    public int numberOfChip;
-    public int numberOfPoints;
-    public List<int> listOfCoordinatesToPlacedTheChip;
-    public int initialPointsOfChips;
-    public int winningPointsOfChips;
-    public int numberOfConnects;
-    public List<int> listOfConnectsBetweenCouplePoints;
+    public string numberOfChip;
+    public string numberOfPoints;
+    public List<string> listOfCoordinatesToPlacedTheChip;
+    public string initialPointsOfChips;
+    public string winningPointsOfChips;
+    public string numberOfConnects;
+    public List<string> listOfConnectsBetweenCouplePoints;
 }
