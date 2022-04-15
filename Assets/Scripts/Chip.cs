@@ -13,7 +13,13 @@ public class Chip : MonoBehaviour
     private bool isSelectChip;
     private bool isCollisionStay2D;
     private string tagOfCurrentPoint;
+    private Action<string> findEmptyPointsAction;
 
+    public void Setup(Action<string> findEmptyPointsAction)
+    {
+        this.findEmptyPointsAction = findEmptyPointsAction;
+    }
+    
     private void Start()
     {
     }
@@ -69,7 +75,8 @@ public class Chip : MonoBehaviour
         {
             if (isCollisionStay2D)
             {
-                //TODO получить все свободные точки на пути,узнать,кто занят.
+                //TODO отправляем в вэй менеджер инфу о поиске свободных слотов
+                findEmptyPointsAction?.Invoke(transform.tag);
             }
         }
     }
@@ -78,6 +85,7 @@ public class Chip : MonoBehaviour
     {
         isCollisionStay2D = true;
         tagOfCurrentPoint = other.gameObject.tag;
+        //TODO отправляем запрос,что эта фишка находится на этой точке
     }
 
     private void OnCollisionExit2D(Collision2D other)
