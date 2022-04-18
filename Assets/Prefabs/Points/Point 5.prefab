@@ -9,7 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1814362407611134557, guid: a56b60298bb0f1d4d8bad84aa9e0f4c5, type: 3}
       propertyPath: m_Name
-      value: Point
+      value: Point 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1814362407611134557, guid: a56b60298bb0f1d4d8bad84aa9e0f4c5, type: 3}
+      propertyPath: m_TagString
+      value: Point5
       objectReference: {fileID: 0}
     - target: {fileID: 7984712136639122512, guid: a56b60298bb0f1d4d8bad84aa9e0f4c5, type: 3}
       propertyPath: m_RootOrder

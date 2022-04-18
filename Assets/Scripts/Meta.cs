@@ -4,60 +4,55 @@ using UnityEngine;
 
 public class Meta : MonoBehaviour
 {
-    // [SerializeField] private Point point1Prefab,
-    //     point2Prefab,
-    //     point3Prefab,
-    //     point4Prefab,
-    //     point5Prefab,
-    //     point6Prefab,
-    //     point7Prefab,
-    //     point8Prefab;
-
     [SerializeField] private Point[] pointsArrayPrefabs;
     [SerializeField] private Chip[] chipPrefabs;
+    [SerializeField] private Transform[] listSpawnPoints;
     [SerializeField] private WayManager wayManagerPrefab;
     [SerializeField] private DataManager dataManagerPrefab;
     
     private DataManager gameData;
     private WayManager wayManager;
-    private List<Point> points;
-    private List<Chip> chips;
-
+    private List<Chip> chips = new List<Chip>();
+    private List<Point> listPoints = new List<Point>();
     private Action<string> findEmptyPointsAction;
 
     void Start()
     {
         gameData = Instantiate(dataManagerPrefab);
         gameData.Load();
-        Debug.Log(gameData.Data.numberOfChip);
+      
 
         wayManager = Instantiate(wayManagerPrefab);
-        wayManager.Setup();
+        PrefabInitialize();
+        wayManager.Setup(listPoints);
 
         findEmptyPointsAction += FindEmptyPoints;
     }
 
     private void PrefabInitialize()
     {
-        foreach (Point pointPrefab in pointsArrayPrefabs)
+        for (int i = 0; i < pointsArrayPrefabs.Length; i++)
         {
-            Point point = Instantiate(pointPrefab);
-            points.Add(point);
+            Point point = Instantiate(pointsArrayPrefabs[i],listSpawnPoints[i].transform);
+            listPoints.Add(point);
         }
-        
-        foreach (Chip chipPrefab in chipPrefabs)
+
+        for (int i = 0; i < chipPrefabs.Length; i++)
         {
-            Chip chip = Instantiate(chipPrefab);
-            chips.Add(chip);
+            Chip chip = Instantiate(chipPrefabs[i],listSpawnPoints[i].transform);
             chip.Setup(findEmptyPointsAction);
+            chips.Add(chip);
         }
+       
     }
 
     private void FindEmptyPoints(string text)
     {
-        if (text =="Point1")
-        {
-            wayManager.FindEmptyWayPoint1();
-        }
+        if (text =="Point1") wayManager.FindEmptyWayPoint(Points.Point1);
+        if (text =="Point2") wayManager.FindEmptyWayPoint(Points.Point2);
+        if (text =="Point3") wayManager.FindEmptyWayPoint(Points.Point3);
+        if (text =="Point4") wayManager.FindEmptyWayPoint(Points.Point4);
+        if (text =="Point5") wayManager.FindEmptyWayPoint(Points.Point5);
+        if (text =="Point6") wayManager.FindEmptyWayPoint(Points.Point6);
     }
 }

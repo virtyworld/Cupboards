@@ -18,6 +18,7 @@ TagManager:
   - Point6
   - Point7
   - Point8
+  - Point9
   layers:
   - Default
   - TransparentFX
