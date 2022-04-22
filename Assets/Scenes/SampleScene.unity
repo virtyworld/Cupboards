@@ -590,8 +590,8 @@ MonoBehaviour:
   - {fileID: 1608926595075530647, guid: 3a7c3b14c2142ad42b0d6ea0094107a4, type: 3}
   - {fileID: 1608926595075530647, guid: 78e86993869b3694796a36737f86047e, type: 3}
   chipPrefabs:
-  - {fileID: 5802017525325169748, guid: 0cde24f8b3845414ab3121943b53ab62, type: 3}
-  - {fileID: 5802017525325169748, guid: fb8aee283e339ae4f8d6e03595e54b6c, type: 3}
+  - {fileID: 1900929796051726733, guid: 0cde24f8b3845414ab3121943b53ab62, type: 3}
+  - {fileID: 6107580448126477055, guid: fb8aee283e339ae4f8d6e03595e54b6c, type: 3}
   listSpawnPoints:
   - {fileID: 1532324751}
   - {fileID: 23822536}
