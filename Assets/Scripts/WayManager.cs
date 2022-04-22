@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,17 +17,32 @@ public enum Points
 
 public class WayManager : MonoBehaviour
 {
-    private bool isPointEmpty;
+    private GameData gameData;
+    private Point[] pointsArrayPrefabs;
+    private Chip[] chipPrefabs;
+    private Transform[] listSpawnPoints;
     private List<Point> listPoints = new List<Point>();
+    private Action<string> findEmptyPointsAction;
+    private Action stopBlinkingPointsAction;
+    private List<Chip> chips = new List<Chip>();
+    
+    public List<Point> ListPoints => listPoints;
+  
 
-    public void Setup(List<Point> listPoints)
+    public void Setup(Point[] pointsArrayPrefabs, Chip[] chipPrefabs, Transform[] listSpawnPoints,GameData gameData)
     {
-        this.listPoints = listPoints;
+        this.pointsArrayPrefabs = pointsArrayPrefabs;
+        this.chipPrefabs = chipPrefabs;
+        this.listSpawnPoints = listSpawnPoints;
+        this.gameData = gameData;
     }
 
     // Start is called before the first frame update
     void Start()
     {
+         findEmptyPointsAction += FindEmptyWayPoint;
+        stopBlinkingPointsAction += StopBlink;
+        PrefabInitialize();
     }
 
     // Update is called once per frame
@@ -34,66 +50,149 @@ public class WayManager : MonoBehaviour
     {
     }
 
-    public void FindEmptyWayPoint(Points pointNumber)
+    private void PrefabInitialize()
     {
-        if (pointNumber == Points.Point1)
+        // Spawn points
+        if (gameData.numberOfPoints != null)
         {
-            GetNearestFromPoint(Points.Point4);
+            int numberOfPoint;
+            if (int.TryParse(gameData.numberOfPoints, out numberOfPoint))
+            {
+              for (int i = 0; i < numberOfPoint; i++)
+                {
+                    // Check listOfCoordinatesToPlacedTheChip for contain coordinates
+                    if (gameData.listOfCoordinatesToPlacedTheChip[i]!=null)
+                    {
+                        string[] sArray = gameData.listOfCoordinatesToPlacedTheChip[i].Split(',');
+ 
+                        // store as a Vector3
+                        Vector3 coordPoint = new Vector3(
+                            float.Parse(sArray[0]),
+                            float.Parse(sArray[1]),
+                            0);
+                        
+                        Point point = Instantiate(pointsArrayPrefabs[i],listSpawnPoints[i].transform);
+                        point.transform.position = coordPoint;
+                        listPoints.Add(point);
+                    }
+                    else
+                    {
+                        Point point = Instantiate(pointsArrayPrefabs[i],listSpawnPoints[i].transform);
+                        listPoints.Add(point);
+                    }
+                    
+                    // Point point = Instantiate(pointsArrayPrefabs[i],listSpawnPoints[i].transform);
+                    // listPoints.Add(point);
+                }
+            }  
+           
         }
-        else if (pointNumber == Points.Point5)
+        else
         {
-            GetNearestFromPoint(Points.Point4);
+            for (int i = 0; i < pointsArrayPrefabs.Length; i++)
+            {
+                Point point = Instantiate(pointsArrayPrefabs[i],listSpawnPoints[i].transform);
+                listPoints.Add(point);
+            } 
         }
-        else if (pointNumber == Points.Point3)
+        
+      // Spawn chips
+        if (gameData.numberOfChip != null)
         {
-            GetNearestFromPoint(Points.Point6);
+            //  TODO winningPointsOfChips, numberOfConnects, listOfConnectsBetweenCouplePoints
+            int numberOfChip;
+            if (int.TryParse(gameData.numberOfChip, out numberOfChip))
+            {
+                for (int i = 0; i < numberOfChip; i++)
+                {
+                    // Check initialPointsOfChips for contain points
+                    if (gameData.initialPointsOfChips!=null)
+                    {
+                        string[] sArray = gameData.initialPointsOfChips.Split(',');
+                        
+                        Chip chip = Instantiate(chipPrefabs[i],listSpawnPoints[int.Parse(sArray[i])-1].transform);
+                        chip.Setup(findEmptyPointsAction,stopBlinkingPointsAction,this);
+                        chips.Add(chip);
+                    }
+                    else
+                    {
+                        Chip chip = Instantiate(chipPrefabs[i],listSpawnPoints[i].transform);
+                        chip.Setup(findEmptyPointsAction,stopBlinkingPointsAction,this);
+                        chips.Add(chip);
+                    }
+                    
+                   
+                }
+            }
+            
         }
-        else if (pointNumber == Points.Point4)
+        else
         {
-            GetNearestFromPoint(Points.Point1);
-            GetNearestFromPoint(Points.Point5);
-            GetNearestFromPoint(Points.Point7);
+            for (int i = 0; i < chipPrefabs.Length; i++)
+            {
+                Chip chip = Instantiate(chipPrefabs[i],listSpawnPoints[i].transform);
+                chip.Setup(findEmptyPointsAction,stopBlinkingPointsAction,this);
+                chips.Add(chip);
+            }
         }
-        else if (pointNumber == Points.Point5)
-        {
-            GetNearestFromPoint(Points.Point2);
-            GetNearestFromPoint(Points.Point4);
-            GetNearestFromPoint(Points.Point6);
-            GetNearestFromPoint(Points.Point8);
-        }
-        else if (pointNumber == Points.Point6)
-        {
-            GetNearestFromPoint(Points.Point3);
-            GetNearestFromPoint(Points.Point5);
-            GetNearestFromPoint(Points.Point9);
-        }
-        else if (pointNumber == Points.Point7)
-        {
-            GetNearestFromPoint(Points.Point4);
-        }
-        else if (pointNumber == Points.Point8)
-        {
-            GetNearestFromPoint(Points.Point5);
-        }
-        else if (pointNumber == Points.Point9)
-        {
-            GetNearestFromPoint(Points.Point6);
-        }
+        
+        
+
+        
+       
+    }
+    
+    
+    private void FindEmptyWayPoint(string pointNumber)
+    {
+        Debug.Log("cock");
+        Debug.Log(pointNumber);
+        
+        if (pointNumber == Points.Point1.ToString()) GetNearestFromPoint(Points.Point4);
+        else if (pointNumber == Points.Point2.ToString()) GetNearestFromPoint(Points.Point5);
+        else if (pointNumber == Points.Point3.ToString()) GetNearestFromPoint(Points.Point6);
+        else if (pointNumber == Points.Point4.ToString()) GetNearestFromPoint(Points.Point1,Points.Point5,Points.Point7);
+        else if (pointNumber == Points.Point5.ToString()) GetNearestFromPoint(Points.Point2,Points.Point4,Points.Point6,Points.Point8);
+        else if (pointNumber == Points.Point6.ToString()) GetNearestFromPoint(Points.Point3,Points.Point5,Points.Point9);
+        else if (pointNumber == Points.Point7.ToString()) GetNearestFromPoint(Points.Point4);
+        else if (pointNumber == Points.Point8.ToString()) GetNearestFromPoint(Points.Point5);
+        else if (pointNumber == Points.Point9.ToString()) GetNearestFromPoint(Points.Point6);
     }
 
-    private void GetNearestFromPoint(Points pointNumber)
+    private void GetNearestFromPoint(Points pointNumber1, Points? pointNumber2 = null,Points? pointNumber3 = null,Points? pointNumber4 = null)
     {
-        //nearest point is 4
         foreach (Point point in listPoints)
         {
-            if (point.tag.Equals(pointNumber))
+            if (point.tag == pointNumber1.ToString() ||
+                point.tag == pointNumber2.ToString() ||
+                point.tag == pointNumber3.ToString() ||
+                point.tag == pointNumber4.ToString())
             {
-                if (point.IsEmpty)
+                Debug.Log("point.tag "+point.tag+" IsContainChip "+point.IsContainChip);
+                if (!point.IsContainChip && Input.GetMouseButtonDown(0))
                 {
-                    //TODO miganie
+                    Debug.Log("point.tag "+point.tag + " StartBlinking" );
                     point.StartBlinking();
+                }
+            }
+            else
+            {
+                if (point.IsBlinking)
+                {
+                    Debug.Log("point.tag "+point.tag + " StopBlinking" );
+                    point.StopBlinking();
                 }
             }
         }
     }
+
+    private void StopBlink()
+    {
+        foreach (Point point in listPoints)
+        {
+            point.StopBlinking();
+        }
+    }
+    
+    
 }

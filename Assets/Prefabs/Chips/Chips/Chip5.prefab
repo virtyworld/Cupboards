@@ -53,7 +53,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2767369789962055140, guid: f61f76e6d9e7eb04cb4c130f0cf03419, type: 3}
       propertyPath: m_Name
-      value: Point5
+      value: Chip5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2767369789962055140, guid: f61f76e6d9e7eb04cb4c130f0cf03419, type: 3}
+      propertyPath: m_TagString
+      value: Chip5
       objectReference: {fileID: 0}
     - target: {fileID: 5085029399236495543, guid: f61f76e6d9e7eb04cb4c130f0cf03419, type: 3}
       propertyPath: m_Color.b

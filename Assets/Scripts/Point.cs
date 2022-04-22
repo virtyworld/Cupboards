@@ -1,11 +1,16 @@
+using System;
 using UnityEngine;
 
 public class Point : MonoBehaviour
 {
-    private bool isEmpty;
+    [SerializeField] private Animator animator;
+    
+    private bool isContainChip;
     private string chipTag;
+    private bool isBlinking;
 
-    public bool IsEmpty => isEmpty;
+    public bool IsBlinking => isBlinking;
+    public bool IsContainChip => isContainChip;
     public string ChipTag => chipTag;
 
     // Start is called before the first frame update
@@ -17,25 +22,30 @@ public class Point : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        animator.SetBool("isNearest",isBlinking);
     }
+  
 
-    private void OnCollisionStay2D(Collision2D other)
+    private void OnTriggerStay2D(Collider2D other)
     {
-        isEmpty = false;
+        isContainChip = true;
         chipTag = other.gameObject.tag;
     }
 
-    private void OnCollisionExit2D(Collision2D other)
+    private void OnTriggerExit2D(Collider2D other)
     {
-        isEmpty = true;
+        isContainChip = false;
         chipTag = "";
     }
 
     public void StartBlinking()
     {
-        //TODO start animation
+        isBlinking = true;
     }
 
-  
+    public void StopBlinking()
+    {
+        isBlinking = false;
+    }  
+    
 }

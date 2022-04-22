@@ -11,7 +11,7 @@ public class DataManager : MonoBehaviour
     public void Load()
     {
         data = new GameData();
-        string json = ReadFromFIle(file);
+        string json = ReadFromFile(file);
         if (json!= null)JsonUtility.FromJsonOverwrite(json, data);
 
     }
@@ -33,7 +33,7 @@ public class DataManager : MonoBehaviour
         }
     }
 
-    private string ReadFromFIle(string fileName)
+    private string ReadFromFile(string fileName)
     {
         string path = Application.dataPath + "/" +fileName;
       

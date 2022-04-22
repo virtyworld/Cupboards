@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 557353082175643184}
   - component: {fileID: 5085029399236495543}
   - component: {fileID: 2208632113562575348}
-  - component: {fileID: 5318182922773347894}
+  - component: {fileID: 7392998969449384521}
   m_Layer: 0
   m_Name: Chip
   m_TagString: Untagged
@@ -110,16 +110,24 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &5318182922773347894
-MonoBehaviour:
+--- !u!50 &7392998969449384521
+Rigidbody2D:
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2767369789962055140}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 202d013f65869944fa28bc2cc344227b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  boxCollider2D: {fileID: 2208632113562575348}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 0.0001
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4

@@ -12,47 +12,43 @@ public class Meta : MonoBehaviour
     
     private DataManager gameData;
     private WayManager wayManager;
-    private List<Chip> chips = new List<Chip>();
-    private List<Point> listPoints = new List<Point>();
-    private Action<string> findEmptyPointsAction;
+    // private Action<string> findEmptyPointsAction;
+    // private Action stopBlinkingPointsAction;
 
     void Start()
     {
+        // findEmptyPointsAction += FindEmptyPoints;
+        //stopBlinkingPointsAction += StopBlinkPoints;
+        
         gameData = Instantiate(dataManagerPrefab);
         gameData.Load();
       
-
         wayManager = Instantiate(wayManagerPrefab);
-        PrefabInitialize();
-        wayManager.Setup(listPoints);
+        
+        // PrefabInitialize();
 
-        findEmptyPointsAction += FindEmptyPoints;
-    }
+        wayManager.Setup(pointsArrayPrefabs,chipPrefabs,listSpawnPoints,gameData.Data);
 
-    private void PrefabInitialize()
-    {
-        for (int i = 0; i < pointsArrayPrefabs.Length; i++)
-        {
-            Point point = Instantiate(pointsArrayPrefabs[i],listSpawnPoints[i].transform);
-            listPoints.Add(point);
-        }
-
-        for (int i = 0; i < chipPrefabs.Length; i++)
-        {
-            Chip chip = Instantiate(chipPrefabs[i],listSpawnPoints[i].transform);
-            chip.Setup(findEmptyPointsAction);
-            chips.Add(chip);
-        }
        
     }
+  
 
-    private void FindEmptyPoints(string text)
-    {
-        if (text =="Point1") wayManager.FindEmptyWayPoint(Points.Point1);
-        if (text =="Point2") wayManager.FindEmptyWayPoint(Points.Point2);
-        if (text =="Point3") wayManager.FindEmptyWayPoint(Points.Point3);
-        if (text =="Point4") wayManager.FindEmptyWayPoint(Points.Point4);
-        if (text =="Point5") wayManager.FindEmptyWayPoint(Points.Point5);
-        if (text =="Point6") wayManager.FindEmptyWayPoint(Points.Point6);
-    }
+    // private void FindEmptyPoints(string text)
+    // {
+    //     if (text =="Point1") wayManager.FindEmptyWayPoint(Points.Point1);
+    //     if (text =="Point2") wayManager.FindEmptyWayPoint(Points.Point2);
+    //     if (text =="Point3") wayManager.FindEmptyWayPoint(Points.Point3);
+    //     if (text =="Point4") wayManager.FindEmptyWayPoint(Points.Point4);
+    //     if (text =="Point5") wayManager.FindEmptyWayPoint(Points.Point5);
+    //     if (text =="Point6") wayManager.FindEmptyWayPoint(Points.Point6);
+    //     if (text =="Point7") wayManager.FindEmptyWayPoint(Points.Point7);
+    //     if (text =="Point8") wayManager.FindEmptyWayPoint(Points.Point8);
+    //     if (text =="Point9") wayManager.FindEmptyWayPoint(Points.Point9);
+    // }
+
+    // private void StopBlinkPoints()
+    // {
+    //     Debug.Log("meta stopBlinkingPointsAction?.Invoke()");
+    //     wayManager.StopBlink();
+    // }
 }

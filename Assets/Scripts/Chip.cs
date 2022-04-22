@@ -8,28 +8,69 @@ public class Chip : MonoBehaviour
     [SerializeField] private Vector3 targetPosition;
     [SerializeField] private float smoothTime = 0.1F;
     [SerializeField] private Vector3 velocity = Vector3.zero;
-
-    private GameObject selectedObject;
+    
     private bool isSelectChip;
-    private bool isCollisionStay2D;
     private string tagOfCurrentPoint;
     private Action<string> findEmptyPointsAction;
+    private Action stopBlinkingPointsAction;
+    private string pointNumber;
+    private WayManager wayManager;
+    private Vector3 currentPosition;
+    private Collider2D underThePoint;
+   
 
-    public void Setup(Action<string> findEmptyPointsAction)
+    public void Setup(Action<string> findPoints,Action stopBlink,WayManager wayManager)
     {
-        this.findEmptyPointsAction = findEmptyPointsAction;
+        findEmptyPointsAction = findPoints;
+        stopBlinkingPointsAction = stopBlink;
+        this.wayManager = wayManager;
     }
     
     private void Start()
     {
+        currentPosition = new Vector3(transform.position.x,transform.position.y,0);
+        //TODO get a start position from file from data
+       
     }
 
     private void Update()
     {
         Move();
         FindFreePoints();
+      
     }
 
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        underThePoint = other;
+        ChangePosition(other);
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        underThePoint = null;
+    }
+  
+
+    private void ChangePosition(Collider2D other)
+    {
+        if (other)
+        {
+            foreach (Point point in wayManager.ListPoints)
+            {
+                if (point.CompareTag(other.tag))
+                {
+                    if (!point.IsContainChip && point.IsBlinking)
+                    {
+                        transform.position = new Vector3(other.transform.position.x, other.transform.position.y, 0);
+                        currentPosition = transform.position;
+                        tagOfCurrentPoint = other.gameObject.tag;
+                        Debug.Log(other.tag + " "+transform.position +" currentPosition "+currentPosition+" tagOfCurrentPoint "+tagOfCurrentPoint);
+                    }
+                }
+            } 
+        }
+    }
     private void Move()
     {
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -42,9 +83,10 @@ public class Chip : MonoBehaviour
 
             if (targetObject)
             {
+                SelectObject(targetObject);
+                
                 if (targetObject.transform.gameObject == transform.gameObject && !isSelectChip)
                 {
-                    SelectObject();
                     transform.position = new Vector3(mousePosition.x, mousePosition.y, 0);
                 }
             }
@@ -53,19 +95,26 @@ public class Chip : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             DeselectObject();
+            stopBlinkingPointsAction?.Invoke();
+            ChangePosition(underThePoint);
         }
     }
 
-    private void SelectObject()
+    private void SelectObject(Collider2D targetObject)
     {
-        transform.localScale = new Vector3(55, 55, 1);
-        isSelectChip = true;
+        if (targetObject.CompareTag(tag))
+        {
+            transform.localScale = new Vector3(55, 55, 1);
+            isSelectChip = true;
+        }
+       
     }
 
     private void DeselectObject()
     {
         transform.localScale = new Vector3(50, 50, 1);
         isSelectChip = false;
+        transform.position = currentPosition;
     }
  
 
@@ -73,23 +122,9 @@ public class Chip : MonoBehaviour
     {
         if (isSelectChip && Input.GetMouseButtonDown(0))
         {
-            if (isCollisionStay2D)
-            {
-                //TODO отправляем в вэй менеджер инфу о поиске свободных слотов
-                findEmptyPointsAction?.Invoke(transform.tag);
-            }
+            findEmptyPointsAction?.Invoke(tagOfCurrentPoint);
         }
     }
 
-    private void OnCollisionStay2D(Collision2D other)
-    {
-        isCollisionStay2D = true;
-        tagOfCurrentPoint = other.gameObject.tag;
-        //TODO отправляем запрос,что эта фишка находится на этой точке
-    }
-
-    private void OnCollisionExit2D(Collision2D other)
-    {
-        isCollisionStay2D = false;
-    }
+    
 }
