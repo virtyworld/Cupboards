@@ -8,7 +8,7 @@ public class Point : MonoBehaviour
     private bool isContainChip;
     private string chipTag;
     private bool isBlinking;
-
+   
     public bool IsBlinking => isBlinking;
     public bool IsContainChip => isContainChip;
     public string ChipTag => chipTag;

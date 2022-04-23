@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 
-
 public class Chip : MonoBehaviour
 {
     [SerializeField] private BoxCollider2D boxCollider2D;
@@ -13,31 +12,31 @@ public class Chip : MonoBehaviour
     private string tagOfCurrentPoint;
     private Action<string> findEmptyPointsAction;
     private Action stopBlinkingPointsAction;
-    private string pointNumber;
     private WayManager wayManager;
     private Vector3 currentPosition;
     private Collider2D underThePoint;
-   
-
-    public void Setup(Action<string> findPoints,Action stopBlink,WayManager wayManager)
+    private int numberOfInitPoint;
+    
+    public string TagOfCurrentPoint => tagOfCurrentPoint;
+    
+    public void Setup(Action<string> findPoints,Action stopBlink,WayManager wayManager,int numberOfInitPoint)
     {
         findEmptyPointsAction = findPoints;
         stopBlinkingPointsAction = stopBlink;
         this.wayManager = wayManager;
+        this.numberOfInitPoint = numberOfInitPoint;
     }
     
     private void Start()
     {
         currentPosition = new Vector3(transform.position.x,transform.position.y,0);
-        //TODO get a start position from file from data
-       
+        tagOfCurrentPoint = "Point" + numberOfInitPoint;
     }
 
     private void Update()
     {
         Move();
         FindFreePoints();
-      
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -51,26 +50,6 @@ public class Chip : MonoBehaviour
         underThePoint = null;
     }
   
-
-    private void ChangePosition(Collider2D other)
-    {
-        if (other)
-        {
-            foreach (Point point in wayManager.ListPoints)
-            {
-                if (point.CompareTag(other.tag))
-                {
-                    if (!point.IsContainChip && point.IsBlinking)
-                    {
-                        transform.position = new Vector3(other.transform.position.x, other.transform.position.y, 0);
-                        currentPosition = transform.position;
-                        tagOfCurrentPoint = other.gameObject.tag;
-                        Debug.Log(other.tag + " "+transform.position +" currentPosition "+currentPosition+" tagOfCurrentPoint "+tagOfCurrentPoint);
-                    }
-                }
-            } 
-        }
-    }
     private void Move()
     {
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -99,15 +78,34 @@ public class Chip : MonoBehaviour
             ChangePosition(underThePoint);
         }
     }
+    
+    private void ChangePosition(Collider2D other)
+    {
+        if (other)
+        {
+            foreach (Point point in wayManager.ListPoints)
+            {
+                if (point.CompareTag(other.tag))
+                {
+                    if (!point.IsContainChip && point.IsBlinking)
+                    {
+                        transform.position = new Vector3(other.transform.position.x, other.transform.position.y, 0);
+                        currentPosition = transform.position;
+                        tagOfCurrentPoint = other.gameObject.tag;
+                    }
+                }
+            } 
+        }
+    }
 
     private void SelectObject(Collider2D targetObject)
     {
+
         if (targetObject.CompareTag(tag))
         {
             transform.localScale = new Vector3(55, 55, 1);
             isSelectChip = true;
         }
-       
     }
 
     private void DeselectObject()

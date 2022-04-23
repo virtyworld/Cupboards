@@ -73,29 +73,3 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f61f76e6d9e7eb04cb4c130f0cf03419, type: 3}
---- !u!1 &4552786466857080710 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2767369789962055140, guid: f61f76e6d9e7eb04cb4c130f0cf03419, type: 3}
-  m_PrefabInstance: {fileID: 1822008423893252706}
-  m_PrefabAsset: {fileID: 0}
---- !u!61 &571869426015001494 stripped
-BoxCollider2D:
-  m_CorrespondingSourceObject: {fileID: 2208632113562575348, guid: f61f76e6d9e7eb04cb4c130f0cf03419, type: 3}
-  m_PrefabInstance: {fileID: 1822008423893252706}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &6107580448126477055
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4552786466857080710}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 202d013f65869944fa28bc2cc344227b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  boxCollider2D: {fileID: 571869426015001494}
-  targetPosition: {x: 0, y: 0, z: 0}
-  smoothTime: 0.1
-  velocity: {x: 0, y: 0, z: 0}
