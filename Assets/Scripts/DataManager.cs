@@ -34,7 +34,6 @@ public class DataManager : MonoBehaviour
 
     private string ReadFromFile(string fileName)
     {
-        //string path = Application.dataPath + "/" +fileName;
         string path = Directory.GetCurrentDirectory()+ "/" +fileName;
       
         if (File.Exists(path))

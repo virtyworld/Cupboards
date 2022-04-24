@@ -65,7 +65,6 @@ public class WayManager : MonoBehaviour
         // Spawn chips
         if (gameData.numberOfChip != null)
         {
-            //  TODO winningPointsOfChips, numberOfConnects, listOfConnectsBetweenCouplePoints
             int numberOfChip;
             if (int.TryParse(gameData.numberOfChip, out numberOfChip))
             {
