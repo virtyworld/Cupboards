@@ -1,30 +1,20 @@
-using System;
 using UnityEngine;
 
 public class Point : MonoBehaviour
 {
     [SerializeField] private Animator animator;
-    
+
     private bool isContainChip;
     private string chipTag;
     private bool isBlinking;
-   
+
     public bool IsBlinking => isBlinking;
     public bool IsContainChip => isContainChip;
-    public string ChipTag => chipTag;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
-        animator.SetBool("isNearest",isBlinking);
+        animator.SetBool("isNearest", isBlinking);
     }
-  
 
     private void OnTriggerStay2D(Collider2D other)
     {
@@ -46,6 +36,5 @@ public class Point : MonoBehaviour
     public void StopBlinking()
     {
         isBlinking = false;
-    }  
-    
+    }
 }

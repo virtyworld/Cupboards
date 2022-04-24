@@ -13,10 +13,9 @@ public class DataManager : MonoBehaviour
         data = new GameData();
         string json = ReadFromFile(file);
         if (json!= null)JsonUtility.FromJsonOverwrite(json, data);
-
     }
 
-    public void Save()
+    private void Save()
     {
         string json = JsonUtility.ToJson(data);
         WriteToFile(file, json);
@@ -35,7 +34,8 @@ public class DataManager : MonoBehaviour
 
     private string ReadFromFile(string fileName)
     {
-        string path = Application.dataPath + "/" +fileName;
+        //string path = Application.dataPath + "/" +fileName;
+        string path = Directory.GetCurrentDirectory()+ "/" +fileName;
       
         if (File.Exists(path))
         {
@@ -47,7 +47,7 @@ public class DataManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("File not found");
+            Application.Quit();
             return null;
         }
     }

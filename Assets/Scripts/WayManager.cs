@@ -39,17 +39,11 @@ public class WayManager : MonoBehaviour
         this.gameData = gameData;
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         findEmptyPointsAction += FindEmptyWayPoint;
         stopBlinkingPointsAction += StopBlink;
         PrefabInitialize();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
     }
 
     private void PrefabInitialize()
@@ -64,38 +58,9 @@ public class WayManager : MonoBehaviour
                 {
                     Point point = Instantiate(pointsArrayPrefabs[i], listSpawnPoints[i].transform);
                     listPoints.Add(point);
-
-                    // Check listOfCoordinatesToPlacedTheChip for contain coordinates
-                    // if (gameData.listOfCoordinatesToPlacedTheChip[i] != null)
-                    // {
-                    //     string[] sArray = gameData.listOfCoordinatesToPlacedTheChip[i].Split(',');
-                    //
-                    //     // store as a Vector3
-                    //     Vector3 coordPoint = new Vector3(
-                    //         float.Parse(sArray[0]),
-                    //         float.Parse(sArray[1]),
-                    //         0);
-                    //
-                    //     Point point = Instantiate(pointsArrayPrefabs[i], listSpawnPoints[i].transform);
-                    //     point.transform.position = coordPoint;
-                    //     listPoints.Add(point);
-                    // }
-                    // else
-                    // {
-                    //     Point point = Instantiate(pointsArrayPrefabs[i], listSpawnPoints[i].transform);
-                    //     listPoints.Add(point);
-                    // }
                 }
             }
         }
-        // else
-        // {
-        //     for (int i = 0; i < pointsArrayPrefabs.Length; i++)
-        //     {
-        //         Point point = Instantiate(pointsArrayPrefabs[i], listSpawnPoints[i].transform);
-        //         listPoints.Add(point);
-        //     }
-        // }
 
         // Spawn chips
         if (gameData.numberOfChip != null)
@@ -140,6 +105,7 @@ public class WayManager : MonoBehaviour
 
     private void FindEmptyWayPoint(string pointNumber)
     {
+        // TODO Rewrite this code to algorithm "find way"
         if (pointNumber == Points.Point1.ToString()) GetNearestFromPoint(Points.Point4);
         else if (pointNumber == Points.Point2.ToString()) GetNearestFromPoint(Points.Point5);
         else if (pointNumber == Points.Point3.ToString()) GetNearestFromPoint(Points.Point6);
@@ -173,7 +139,6 @@ public class WayManager : MonoBehaviour
             {
                 if (point.IsBlinking)
                 {
-                    Debug.Log("point.tag " + point.tag + " StopBlinking");
                     point.StopBlinking();
                 }
             }
@@ -192,10 +157,10 @@ public class WayManager : MonoBehaviour
 
     private void CheckForWin()
     {
-        if (Win()) SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        if (IsWin()) SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    private bool Win()
+    private bool IsWin()
     {
         StringBuilder s = new StringBuilder();
 
@@ -207,7 +172,7 @@ public class WayManager : MonoBehaviour
         s.Replace("Point", ",");
         s.Remove(0, 1);
 
-        if (s.Equals(gameData.winningPointsOfChips))
+        if (s.ToString().Equals(gameData.winningPointsOfChips))
         {
             return true;
         }
